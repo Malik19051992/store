@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Какие-то еще поля</th>
+        <th></th>
+    </tr>
+    <% categories.forEach((item)=>{%>
+        <tr>
+            <td><%=item.name%></td>
+            <td></td>
+            <td><a href=<%='/categories/'+item.id%>>Детали</a> </td>
+        </tr>
+    <%}) %>
+</table>
