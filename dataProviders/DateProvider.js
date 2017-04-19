@@ -20,12 +20,14 @@ module.exports = (function () {
             return db.any("select ID as id, TYPE as type, NAME as name from ATTRIBUTTIES");
         },
         getAttributeById: function (id, db) {
-            return db.any(`select ID as id, TYPE as type, NAME as name from ATTRIBUTTIES where ID = ${id}`);
+            return db.one(`select ID as id, TYPE as type, NAME as name from ATTRIBUTTIES where ID = ${id}`);
         },
 
         //атрибуты категорий
         getAttributtiesOfCategory:function (id, db) {
-            return db.any(`select ATTRIBUTTE_ID as attributtiesId from ATTRIBUTTIES_CATEGORIES where CATEGORIES_ID = ${id}`);
+            return db.any(`select ATTRIBUTTE_ID as attributtiesId from ATTRIBUTTIES_CATEGORIES where CATEGORIES_ID = ${id}`).then(attr=>{
+                db.any("select ID as id, TYPE as type, NAME as name from ATTRIBUTTIES where ID in ($1)",attr)
+            });;
         }
     }
 

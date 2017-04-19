@@ -10,11 +10,12 @@ module.exports = (function () {
         }
         this.childrenOfCategory = [];
         this.goodsOfCategory = [];
-        this.attributes = []//attributes;
-        this.parentCtegory = null;
-        if (newCategory.parentCtegory) {
-            this.parentCtegory.addToChildrenOfCategory(this);
-            this.parentCtegory = newCategory.parentCtegory;
+        this.attributes = [];//attributes;
+        this.parentCategoryId = newCategory.parentid;
+        this.parentCategory = null;
+        if (newCategory.parentCategory) {
+            this.parentCategory.addToChildrenOfCategory(this);
+            this.parentCategory = newCategory.parentCategory;
         }
 
     }
