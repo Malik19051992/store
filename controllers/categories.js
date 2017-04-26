@@ -33,6 +33,10 @@ module.exports = {
         return Category.findAll({})
             .then(categories => res.status(200).json(buildTreeCategory(categories, null)))
             .catch(error => res.status(400).json(error));
+    },
+
+    addCategory(req, res){
+        return res.status(200).json({ok:"ok"});
     }
 }
 

@@ -12,6 +12,7 @@ app.use(function(req, res, next) {
 
 app.get('/categories/:id',categoriesController.categoryInfo);
 app.get('/categories',categoriesController.categoryList);
+app.post('/categories',categoriesController.addCategory);
 app.get('/categoriesTree',categoriesController.categoryTree);
 app.get('/createBase',mainController.createBase);
 
