@@ -1,32 +1,35 @@
-/**
- * Created by Valh on 20.03.2017.
- */
-
-module.exports = (function () {
-    function Attribute(newAttribute) {
-
-        if(newAttribute.hasOwnProperty('id'))
-            this.id = newAttribute.id;
-        if (typeof newAttribute.name === 'string') {
-             this.name = newAttribute.name;
+module.exports = (sequelize, DataTypes) => {
+    const Attribute = sequelize.define('Attribute', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
-        else
-            throw TypeError();
-
-        if (newAttribute.type === 'string' || newAttribute.type === 'number')
-            this.type = newAttribute.type;
-        else
-            throw TypeError();
-
-    }
-
-    const attributeProt = {
-        constructor: Attribute
-
-    }
-
-    Object.assign(Attribute.prototype, attributeProt);
-
-    module.exports = Attribute;
+    }, {
+        classMethods: {
+            associate: (models) => {
+                Attribute.belongsToMany(models.Category, {
+                    as: 'categories',
+                    foreignKey: 'AttributeId',
+                    through: models.AttributeCategory
+                });
+                Attribute.belongsToMany(models.Good, {
+                    as: 'Goods',
+                    foreignKey: 'AttributeId',
+                    through: models.PropertyGood
+                });
+            }
+        }
+    });
     return Attribute;
-})();
+};
+
