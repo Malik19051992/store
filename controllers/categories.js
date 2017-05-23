@@ -9,6 +9,7 @@ module.exports = {
         })
             .then(categories => res.status(200).json(categories))
             .catch(error => res.status(400).json({ok: false, error: error.message}));
+
     },
 
     getCategoryInfo(req, res) {

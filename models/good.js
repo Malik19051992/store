@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
                     foreignKey: 'CategoryId',
                     onDelete: 'CASCADE'
                 });
+                Good.hasMany(models.TurnoverGood, {
+                    foreignKey: 'GoodId',
+                    as: 'TurnoverGoods'
+                });
             },
         },
     });

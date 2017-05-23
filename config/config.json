@@ -1,8 +1,17 @@
 {
+  "baseConfig": {
     "username": "postgres",
     "password": 123,
     "database": "shopTest",
     "host": "localhost",
     "port": 5432,
     "dialect": "postgres"
+  },
+  "jwtConfig": {
+    "secretKey": "myLittleSecret"
+  },
+  "appConfig": {
+    "port": 8080
+  }
+
 }
