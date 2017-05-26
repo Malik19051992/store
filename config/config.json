@@ -12,6 +12,8 @@
   },
   "appConfig": {
     "port": 8080
+  },
+  "pbkdf2Config": {
+    "salt":"salt"
   }
-
 }

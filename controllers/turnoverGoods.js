@@ -14,7 +14,7 @@ module.exports = {
                         res.status(200)
                             .json({
                                 id: goodTurnover.dataValues.id,
-                                name: goods.filter(item => item.dataValues.id === goodTurnover.dataValues.id)[0].name,
+                                name: goods.filter(item => item.dataValues.id === goodTurnover.dataValues.GoodId)[0].name,
                                 count: goodTurnover.dataValues.count,
                                 dateAction: goodTurnover.dataValues.dateAction,
                                 purchasePrice: goodTurnover.dataValues.purchasePrice,
@@ -140,7 +140,6 @@ module.exports = {
                     .then(turnoversGoods => {
                         const goodsArray = [];
                         for (let i = 0; i < goods.length; i++) {
-                            console.log
                             goodsArray.push({
                                 id: goods[i].dataValues.id,
                                 name: goods[i].dataValues.name,
