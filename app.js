@@ -21,11 +21,13 @@ app.use(function (req, res, next) {
 
 app.get('/categories/:id', verificationAccess(categoriesController.getCategoryInfo, [0, 1]));
 app.get('/categories', verificationAccess(categoriesController.getCategoriesList, [0, 1]));
+app.post('/categories/:pageSize/:pageNumber', verificationAccess(categoriesController.getCategoriesForPage, [0, 1]));
 app.post('/categories', verificationAccess(categoriesController.addCategory, [0, 1]));
 app.post('/categories/:id', verificationAccess(categoriesController.updateCategory, [0, 1]));
 app.delete('/categories/:id', verificationAccess(categoriesController.destroyCategory, [0, 1]));
 app.post('/categories/:id/attributes', verificationAccess(attributeCategoryController.saveAttributesCategory, [0, 1]));
 app.get('/categories/:id/goods', goodsController.getGoodsCategoryList);
+app.post('/categories/:id/goods/:pageSize/:pageNumber', goodsController.getGoodsCategoryForPage);
 
 app.get('/categoriesTree', categoriesController.getCategoryTree);
 app.get('/createBase', mainController.createBase);
@@ -37,11 +39,13 @@ app.post('/attributes/:id', verificationAccess(attributesController.updateAttrib
 app.delete('/attributes/:id', verificationAccess(attributesController.destroyAttribute, [0, 1]));
 
 app.get('/goods/:id', goodsController.getGoodInfo);
-app.get('/goods', goodsController.getGoodsList);
+app.get('/goods/', goodsController.getGoodsList);
+app.post('/goods/:pageSize/:pageNumber', goodsController.getGoodsForPage);
 app.post('/goods', verificationAccess(goodsController.addGood, [0, 1]));
 app.post('/goods/:id', verificationAccess(goodsController.updateGood, [0, 1]));
 app.delete('/goods/:id', verificationAccess(goodsController.destroyGood, [0, 1]));
 app.post('/goods/:id/properties', verificationAccess(propertyGoodController.savePropertyGood, [0, 1]));
+
 
 app.post('/login', usersController.loginUser);
 app.get('/users/:id', verificationAccess(usersController.getUserInfo, [0]));
@@ -49,9 +53,8 @@ app.get('/users', verificationAccess(usersController.getUsersList, [0]));
 app.post('/users', verificationAccess(usersController.addUser, [0]));
 app.post('/users/:id', verificationAccess(usersController.updateUser, [0]));
 app.delete('/users/:id', verificationAccess(usersController.destroyUser, [0]));
-app.post('/changePassword/:id', verificationAccess(usersController.changePassword, [0, 1, 2]))
-
-
+app.post('/changePassword/:id', verificationAccess(usersController.changePassword, [0, 1, 2]));
+app.post('/resetPassword/:id', verificationAccess(usersController.resetPassword, [0]));
 
 app.post('/turnoverGoods', verificationAccess(turnoverGoodsController.addTurnoverGoods, [0, 1]));
 app.get('/turnoverGoods/:id', verificationAccess(turnoverGoodsController.getTurnoverGoodById, [0, 1]));

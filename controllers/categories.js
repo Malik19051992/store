@@ -5,7 +5,7 @@ const Good = require('../models').Good;
 module.exports = {
     getCategoriesList(req, res){
         return Category.findAll({
-            order: [['createdAt']]
+            order: [['name']]
         })
             .then(categories => res.status(200).json(categories))
             .catch(error => res.status(400).json({ok: false, error: error.message}));
@@ -40,7 +40,7 @@ module.exports = {
 
     getCategoryTree(req, res){
         return Category.findAll({
-            order: [['createdAt']]
+            order: [['name']]
         })
             .then(categories => res.status(200).json(buildTreeCategory(categories, null)))
             .catch(error => res.status(400).json({ok: false, error: error.message}));
@@ -88,6 +88,28 @@ module.exports = {
                     .catch(error => res.status(400).json({ok: false, error: error.message}))
             })
             .catch(error => res.status(400).json({ok: false, error: error.message}));
+    },
+    getCategoriesForPage(req, res){
+        let data = "";
+        req.on('data', function (chunk) {
+            data += chunk;
+        });
+        req.on('end', function () {
+            const inputData = JSON.parse(data);
+            const queryCondition = {}
+            if (inputData.filterValue)
+                queryCondition.name = {$iLike: `%${inputData.filterValue}%`}
+            return Category.findAll({
+                offset: +req.params.pageSize * (+req.params.pageNumber - 1),
+                limit: +req.params.pageSize,
+                order: [['createdAt']],
+                where: queryCondition
+            })
+                .then(categories =>
+                    Category.count({where: queryCondition}).then(count =>
+                        res.status(200).json({count: count, categories: categories})))
+                .catch(error => res.status(400).json({ok: false, error: error.message}));
+        })
     }
 }
 

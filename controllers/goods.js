@@ -1,4 +1,5 @@
 const Good = require('../models').Good;
+const sequelize = require('../models').sequelize;
 
 module.exports = {
     getGoodsList(req, res){
@@ -78,7 +79,55 @@ module.exports = {
                     .catch(error => res.status(400).json({ok: false, error: error.message}))
             })
             .catch(error => res.status(400).json({ok: false, error: error.message}));
+    },
+
+    getGoodsCategoryForPage(req, res){
+        let data = "";
+        req.on('data', function (chunk) {
+            data += chunk;
+        });
+        req.on('end', function () {
+            const inputData = JSON.parse(data);
+            const queryCondition = {CategoryId: +req.params.id}
+            if (inputData.filterValue)
+                queryCondition.name = {$iLike: `%${inputData.filterValue}%`}
+            return Good.findAll({
+                offset: +req.params.pageSize * (+req.params.pageNumber - 1),
+                limit: +req.params.pageSize,
+                where: queryCondition,
+                order: [['createdAt']]
+            })
+                .then(goods =>
+                    Good.count({where: queryCondition}).then(count =>
+                        res.status(200).json({count: count, goods: goods})))
+                .catch(error => res.status(400).json({ok: false, error: error.message}));
+        })
+    },
+
+    getGoodsForPage(req, res){
+        let data = "";
+        req.on('data', function (chunk) {
+            data += chunk;
+        });
+        req.on('end', function () {
+            const inputData = JSON.parse(data);
+            const queryCondition = {}
+            if (inputData.filterValue)
+                queryCondition.name = {$iLike: `%${inputData.filterValue}%`}
+            return Good.findAll({
+                offset: +req.params.pageSize * (+req.params.pageNumber - 1),
+                limit: +req.params.pageSize,
+                order: [['createdAt']],
+                where: queryCondition
+            })
+                .then(goods =>
+                    Good.count({where: queryCondition}).then(count =>
+                        res.status(200).json({count: count, goods: goods})))
+                .catch(error => res.status(400).json({ok: false, error: error.message}));
+        })
     }
 }
+
+
 
 
